@@ -4,3 +4,7 @@ from django.shortcuts import render
 def carrito(request):
     context = {}
     return render(request, 'carrito/carrito.html', context)
+
+def confirmar(request):
+    context = {}
+    return render(request,'carrito/confirmar.html', context)
