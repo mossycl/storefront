@@ -1,0 +1,94 @@
+{% extends 'zapatos/zapatos.html' %}
+
+{% load static %}
+
+{% block header %}
+    <header class="container-fluid p-3 encabezado">
+        <h1 class="text-center kanit-semibold">Zapatillas</h1>
+    </header>
+{% endblock %}
+
+{% block aside %}
+<aside class="busqueda rounded border p-3">
+    <form>
+        <div class="mb-3">
+            <h6 class="kanit-regular">Filtrar por Marca</h6>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" name="marcaRadio" type="radio" value="nike" id="nikeCheck">
+            <label for="busqueda-marca" class="form-label kanit-light">Nike</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" name="marcaRadio" type="radio" value="adidas" id="adidasCheck">
+            <label for="busqueda-marca" class="form-label kanit-light">Adidas</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" name="marcaRadio" type="radio" value="vans" id="vansCheck">
+            <label for="busqueda-marca" class="form-label kanit-light">Vans</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" name="marcaRadio" type="radio" value="dc" id="dcCheck">
+            <label for="busqueda-marca" class="form-label kanit-light">DC</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" name="marcaRadio" type="radio" value="skechers" id="skechersCheck">
+            <label for="busqueda-marca" class="form-label kanit-light">Skechers</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" name="marcaRadio" type="radio" value="puma" id="pumaCheck">
+            <label for="busqueda-marca" class="form-label kanit-light">Puma</label>
+        </div>
+        <div class="mb-3">
+            <h6 class="kanit-regular">Filtrar por Precio</h6>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" name="precioRadio" type="radio" value="precio1" id="precioRadio1">
+            <label for="busqueda-marca" class="form-label kanit-light">Menos de $30.000</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" name="precioRadio" type="radio" value="precio2" id="precioRadio2">
+            <label for="busqueda-marca" class="form-label kanit-light">$30.000 a $50.000</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" name="precioRadio" type="radio" value="precio3" id="precioRadio3">
+            <label for="busqueda-marca" class="form-label kanit-light">$50.000 a $70.000</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" name="precioRadio" type="radio" value="precio4" id="precioRadio4">
+            <label for="busqueda-marca" class="form-label kanit-light">$70.000 a $90.000</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" name="precioRadio" type="radio" value="precio5" id="precioRadio5">
+            <label for="busqueda-marca" class="form-label kanit-light">$90.000 a $110.000</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" name="precioRadio" type="radio" value="precio6" id="precioRadio6">
+            <label for="busqueda-marca" class="form-label kanit-light">$110.000 y más</label>
+        </div>
+
+        <div class="mb-3">
+            <h6 class="kanit-regular">Filtrar por Género </h6>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" name="generoRadio" type="radio" value="hombre" id="hombreCheck">
+            <label for="busqueda-marca" class="form-label kanit-light">Hombre</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" name="generoRadio" type="radio" value="mujer" id="mujerCheck">
+            <label for="busqueda-marca" class="form-label kanit-light">Mujer</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" name="generoRadio" type="radio" value="unisex" id="unisexCheck">
+            <label for="busqueda-marca" class="form-label kanit-light">Unisex</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" name="generoRadio" type="radio" value="niño" id="ninoCheck">
+            <label for="busqueda-marca" class="form-label kanit-light">Niño</label>
+        </div>
+    </form>
+</aside>
+{% endblock %}
+
+{% block script %}
+<script type="module" src="{% static 'index/js/zapatillas.js' %}"></script>
+{% endblock %}

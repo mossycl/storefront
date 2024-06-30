@@ -1,0 +1,121 @@
+{% extends 'index/base.html' %}
+
+{% load static %}
+
+{% block title %}
+    <title>JDC - Zapatos</title>
+{% endblock %}
+
+{% block content %}
+    {% block header %}
+    <header class="container-fluid p-3 encabezado">
+        <h1 class="text-center kanit-semibold">Zapatos</h1>
+    </header>
+    {% endblock %}
+    <main class="container-fluid mt-1 p-4 d-flex justify-content-center pagina-zapatos">
+        {% block aside %}
+            <aside class="busqueda rounded border p-3">
+                <form>
+                    <div class="mb-3">
+                        <h6 class="kanit-regular">Filtrar por Marca</h6>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="marcaRadio" type="radio" value="todos" id="allCheck">
+                        <label for="busqueda-marca" class="form-label kanit-light">Todos</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="marcaRadio" type="radio" value="azaleia" id="azaleiaCheck">
+                        <label for="busqueda-marca" class="form-label kanit-light">Azaleia</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="marcaRadio" type="radio" value="bata" id="bataCheck">
+                        <label for="busqueda-marca" class="form-label kanit-light">Bata</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="marcaRadio" type="radio" value="guante" id="guanteCheck">
+                        <label for="busqueda-marca" class="form-label kanit-light">Guante</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="marcaRadio" type="radio" value="hush puppies" id="hpCheck">
+                        <label for="busqueda-marca" class="form-label kanit-light">Hush Puppies</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="marcaRadio" type="radio" value="merrell" id="merrellCheck">
+                        <label for="busqueda-marca" class="form-label kanit-light">Merrell</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="marcaRadio" type="radio" value="panama jack" id="panamaCheck">
+                        <label for="busqueda-marca" class="form-label kanit-light">Panama Jack</label>
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="kanit-regular">Filtrar por Precio</h6>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="precioRadio" type="radio" value="precio1" id="precioRadio1">
+                        <label for="busqueda-marca" class="form-label kanit-light">Menos de $30.000</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="precioRadio" type="radio" value="precio2" id="precioRadio2">
+                        <label for="busqueda-marca" class="form-label kanit-light">$30.000 a $50.000</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="precioRadio" type="radio" value="precio3" id="precioRadio3">
+                        <label for="busqueda-marca" class="form-label kanit-light">$50.000 a $70.000</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="precioRadio" type="radio" value="precio4" id="precioRadio4">
+                        <label for="busqueda-marca" class="form-label kanit-light">$70.000 a $90.000</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="precioRadio" type="radio" value="precio5" id="precioRadio5">
+                        <label for="busqueda-marca" class="form-label kanit-light">$90.000 a $110.000</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="precioRadio" type="radio" value="precio6" id="precioRadio6">
+                        <label for="busqueda-marca" class="form-label kanit-light">$110.000 y más</label>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6 class="kanit-regular">Filtrar por Género </h6>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="generoRadio" type="radio" value="hombre" id="hombreCheck">
+                        <label for="busqueda-marca" class="form-label kanit-light">Hombre</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="generoRadio" type="radio" value="mujer" id="mujerCheck">
+                        <label for="busqueda-marca" class="form-label kanit-light">Mujer</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="generoRadio" type="radio" value="unisex" id="unisexCheck">
+                        <label for="busqueda-marca" class="form-label kanit-light">Unisex</label>
+                    </div>
+                </form>
+            </aside>
+        {% endblock %}
+        <div class="row justify-content-around align-items-center zapatos-display" id="zapatosRow">
+            {% if productos %}
+                {% for producto in productos %}
+                <div class="col-xxl-3 col-xl-3 col-md-6 col-sm-12 mb-2 p-0 prod" name="{{producto.id_marca}}">
+                    <a class="text-decoration-none" href="{% url 'detalle' pk=producto.id_producto %}">
+                        <div class="card ficha-zapato">
+                            <img class="card-img-top" src="{{producto.imagen.url}}" alt="{{producto.nombre}}">
+                            <div class="card-body">
+                                <h5 class="card-title kanit-semibold">{{producto.nombre_prod}}</h5>
+                                <p class="card-text kanit-light">{{producto.id_marca}}</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item kanit-semibold precio">$ {{producto.precio}}</li>
+                            </ul>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </main>
+{% endblock %}
+
+{% block script %}
+<script type="module" src="{% static 'index/js/zapatos.js' %}"></script>
+{% endblock %}
