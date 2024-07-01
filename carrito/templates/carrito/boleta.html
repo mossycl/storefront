@@ -1,0 +1,45 @@
+{% extends 'index/base.html' %} {% load static %} {% block title %}
+<title>JDC - Boleta</title>
+{% endblock %} {% block content %}
+<section class="h-100 h-custom carro">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12">
+        <div class="card card-registration card-registration-2" style="border-radius: 15px">
+                
+          <h1>Boleta de Compra</h1>
+          <h2>Datos del Cliente</h2>
+          <p>Nombre: {{ usuario.first_name }} {{ usuario.last_name }}</p>
+          <p>Email: {{ usuario.email }}</p>
+          <p>Dirección: {{ usuario.usuario.direccion }}</p>
+
+          <h2>Detalle de la Compra</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in items %}
+              <tr>
+                <td>{{ item.producto.nombre_prod }}</td>
+                <td>{{ item.cantidad }}</td>
+                <td>{{ item.producto.precio }}</td>
+                <td>{{ item.total }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <p>Subtotal: {{ subtotal }}</p>
+          <p>Total: {{ total }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
