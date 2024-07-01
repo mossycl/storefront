@@ -37,9 +37,15 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'zapatos' %}">Zapatos</a>
                         </li>
+                        {% if usuario %}
                         <li class="nav-item">
-                            <a class="nav-link" href="">Login</a>
+                            <a class="nav-link" href="{% url 'login' %}">{{usuario}}</a>
                         </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
                 <a href="{% url 'carrito' %}"><i class="fa-solid fa-cart-shopping fa-lg icon-color"></i></a>
