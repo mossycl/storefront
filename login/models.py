@@ -14,7 +14,7 @@ class Comuna(models.Model):
     id_region = models.ForeignKey("Region",on_delete=models.CASCADE,db_column='id_region')
 
     def __str__(self):
-        return str(self.nombre_comuna)
+        return str(self.nombre_comuna) + "-" + str(self.id_region)
 
 class Usuario(models.Model):
     email = models.EmailField(unique=True, null=False, blank=False)
@@ -29,4 +29,4 @@ class Usuario(models.Model):
     direccion = models.CharField(max_length=100, blank=False, null=False)
 
     def __str__(self):
-        return str(self.rut_cliente)
+        return str(self.rut_cliente) + " " + str(self.pnombre_cliente) + " " + str(self.apaterno_cliente)

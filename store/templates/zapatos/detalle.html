@@ -45,8 +45,8 @@
                 <div class="col-xxl-6 col-xl-6 col-md-6 col-sm-12 p-3">
                     <div>
                         <h4 class="kanit-semibold mb-3" id="detalleNombre">{{producto.nombre_prod}}</h4>
-                        <h6 class="kanit-light mb-4" id="detalleMarca">{{producto.id_marca}}</h6>
-                        <h4 class="kanit-semibold" id="detallePrecio">$ {{producto.precio}}</h4>
+                        <h6 class="kanit-light mb-4" id="detalleMarca" name="marcaProd">{{producto.id_marca}}</h6>
+                        <h4 class="kanit-semibold" id="detallePrecio" name="precioProd">$ {{producto.precio}}</h4>
                     </div>
                     <hr>
                     <h6 class="kanit-regular">Tallas Disponibles</h6>
@@ -67,7 +67,14 @@
                     <div class="d-flex justify-content-center align-items-center">
                         <label class="me-4 kanit-light" for="cantidadItem">Cantidad:</label>
                         <input class="cantidad-item kanit-light text-center" type="number" name="cantidad" id="cantidadItem" min="1" max="99" value="1">
-                        <button id="btnAgregar" type="button" class="btn btn-dark kanit-semibold">Añadir al Carrito</button>
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="idProd" value="{{producto.id_producto}}"/>
+                            <input type="hidden" name="precio" value="{{producto.precio}}"/>
+                            <input type="hidden" name="user" value="{{user.username}}"/>
+                            <input id="btnAgregar" value="Añadir al Carrito" type="submit" method="POST" class="btn btn-dark kanit-semibold"></button>
+                        </form>
+                        
                     </div>
                     <hr>
                     <div>

@@ -1,5 +1,7 @@
 from django.db import models
 
+from login.models import Usuario
+
 # Create your models here.
 class Marca(models.Model):
     id_marca = models.AutoField(db_column="id_marca",primary_key=True)
@@ -46,3 +48,20 @@ class Producto(models.Model):
     class Meta:
         ordering=['id_marca']
 
+class Carrito(models.Model):
+    id_carrito = models.AutoField(db_column='id_carrito', primary_key=True)
+    rut_cliente = models.ForeignKey(Usuario,on_delete=models.CASCADE, db_column='rut_cliente')
+    productos = models.ManyToManyField(Producto, through='CarritoProducto')
+    subtotal = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.id_carrito) + " Subtotal:" + str(self.subtotal)
+
+class CarritoProducto(models.Model):
+    id_carrito = models.ForeignKey('Carrito', on_delete=models.CASCADE, db_column='id_carrito')
+    id_producto = models.ForeignKey('Producto', on_delete=models.CASCADE, db_column='id_producto')
+    cantidad = models.IntegerField(default=0)
+    precio = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.id_carrito) + "-" + str(self.id_producto)

@@ -9,3 +9,11 @@ for (let i = 0; i < cuadroTalla.length; i++){
     });
 };
 
+// btnAgregar.addEventListener('click', () =>{
+//     const xhr = new XMLHttpRequest();
+//     const nombreProd = document.getElementById('detalleNombre').textContent;
+//     xhr.open("POST", "")
+//     xhr.setRequestHeader("Content-Type", "application/json");
+//     xhr.send(JSON.stringify(nombreProd));
+
+// })

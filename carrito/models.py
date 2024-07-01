@@ -4,6 +4,8 @@ from django.db import models
 from store.models import Producto
 # Create your models here.
 
+
+
 # class MetodoEnvio(models.Model):
 #     id_metodo = models.AutoField(db_column="id_metodo",primary_key=True)
 #     metodo = models.CharField(max_length=100, blank=False, null=False)
