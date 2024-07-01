@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from .models import Region, Comuna, Usuario
 from .forms import UsuarioForm
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
+
 # Create your views here.
 
 def signup(request):
@@ -36,8 +39,17 @@ def signup(request):
                 id_comuna = comId,
                 direccion = direccion
             )
+            hashPass = make_password(password)
+            userObj = User.objects.create(
+                username = email,
+                password = hashPass,
+                is_staff = False,
+                is_active = True,
+                is_superuser = False
+            )
 
             obj.save()
+            userObj.save()
             form = UsuarioForm()
             mensaje = "Usuario registrado con éxito"
             context = {"form" : form, "regiones" : regiones, "comunas" : comunas, "mensaje" : mensaje}

@@ -1,17 +1,22 @@
 from django.shortcuts import render
 
 from .models import Producto
+from django.contrib.auth.decorators import login_required
 # Create your views here.
+
+@login_required
 def zapatos(request):
     productos = Producto.objects.raw('SELECT * FROM store_producto WHERE id_cat IN (1, 3, 4)')
     context = {"productos" : productos}
     return render(request,'zapatos/zapatos.html', context)
 
+@login_required
 def zapatillas(request):
     productos = Producto.objects.raw('SELECT * FROM store_producto WHERE id_cat = 2')
     context = {"productos" : productos}
     return render(request,'zapatillas/zapatillas.html', context)
 
+@login_required
 def detalle(request, pk):
     try:
         producto = Producto.objects.get(id_producto=pk)
