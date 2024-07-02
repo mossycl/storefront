@@ -6,13 +6,13 @@ def zapatos(request):
     context = {"productos": productos}
     return render(request, 'zapatos/zapatos.html', context)
 
-@login_required
+#@login_required
 def zapatillas(request):
     productos = Producto.objects.filter(id_cat=2)
     context = {"productos": productos}
     return render(request, 'zapatillas/zapatillas.html', context)
 
-@login_required
+#@login_required
 def detalle(request, pk):
     producto = get_object_or_404(Producto, id_producto=pk)
     tallas = producto.tallas.all()
