@@ -1,77 +1,121 @@
-{% extends 'index/base.html' %}
-
-{% load static %}
-
-{% block title %}
-    <title>JDC - Carrito</title>
-{% endblock %}
-
-{% block content %}
+{% extends 'index/base.html' %} {% load static %} {% block title %}
+<title>JDC - Carrito</title>
+{% endblock %} {% block content %}
 <section class="h-100 h-custom carro">
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-12">
-                <div class="card card-registration card-registration-2" style="border-radius: 15px;">
-                    <div class="card-body p-0">
-                        <div class="row g-0">
-                            <div class="col-lg-8">
-                                <div class="p-5" id="carritoCol">
-                                    <h1 class="fw-bold mb-4 kanit-semibold">Detalle del Carrito</h1>
-                                    {% for producto in productos %}
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <img src="{{ producto.imagen_url }}" alt="{{ producto.producto.nombre_prod }}" style="width: 50px; height: auto;">
-                                        <div>{{ producto.producto.nombre_prod }}</div>
-                                        <div>
-                                            <button onclick="cambiarCantidad('{{ producto.producto.id_producto }}', -1)">-</button>
-                                            {{ producto.cantidad }}
-                                            <button onclick="cambiarCantidad('{{ producto.producto.id_producto }}', 1)">+</button>
-                                        </div>
-                                        <div>$ {{ producto.subtotal }}</div>
-                                    </div>
-                                    {% empty %}
-                                    <p>No hay productos en tu carrito.</p>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            <div class="col-lg-4 bg-grey">
-                                <div class="p-5">
-                                    <h3 class="fw-bold mb-5 mt-2 pt-1 kanit-semibold">Resumen de Compra</h3>
-                                    <div class="d-flex justify-content-between mb-4">
-                                        <h5 class="text-uppercase kanit-regular">Total</h5>
-                                        <h5 class="kanit-regular" id="totalPrice">$ {{ total }}</h5>
-                                    </div>
-                                    <button type="button" class="btn btn-dark btn-block btn-lg kanit-semibold">Comprar</button>
-                                </div>
-                            </div>
-                        </div>
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12">
+        <div
+          class="card card-registration card-registration-2"
+          style="border-radius: 15px"
+        >
+          <div class="card-body p-0">
+            <div class="row g-0">
+              <div class="col-lg-8">
+                <div class="p-5" id="carritoCol">
+                  <h1 class="fw-bold mb-4 kanit-semibold">
+                    Detalle del Carrito
+                  </h1>
+                  {% for producto in productos %}
+                  <div
+                    class="d-flex justify-content-between align-items-center mb-3"
+                  >
+                    <img
+                      src="{{ producto.imagen_url }}"
+                      alt="{{ producto.producto.nombre_prod }}"
+                      style="width: 50px; height: auto"
+                    />
+                    <div>{{ producto.producto.nombre_prod }}</div>
+                    <div>
+                      <button
+                        onclick="cambiarCantidad('{{ producto.producto.id_producto }}', -1)"
+                      >
+                        -
+                      </button>
+                      {{ producto.cantidad }}
+                      <button
+                        onclick="cambiarCantidad('{{ producto.producto.id_producto }}', 1)"
+                      >
+                        +
+                      </button>
                     </div>
+                    <div>$ {{ producto.subtotal }}</div>
+                    <button
+                      onclick="eliminarProducto('{{ producto.producto.id_producto }}')"
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                  {% endfor %}
                 </div>
+              </div>
+              <div class="col-lg-4 bg-grey">
+                <div class="p-5">
+                  <h3 class="fw-bold mb-5 mt-2 pt-1 kanit-semibold">
+                    Resumen de Compra
+                  </h3>
+                  <div class="d-flex justify-content-between mb-4">
+                    <h5 class="text-uppercase kanit-regular">Total</h5>
+                    <h5 class="kanit-regular" id="totalPrice">$ {{ total }}</h5>
+                  </div>
+                  <button type="button" class="btn btn-dark btn-block btn-lg kanit-semibold" onclick="comprar()">Comprar</button>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </section>
 {% endblock %}
-
 {% block script %}
 <script>
-    function cambiarCantidad(productoId, cambio) {
-        const url = "{% url 'modificar_cantidad' %}";
+  function cambiarCantidad(productoId, cambio) {
+    const url = "{% url 'modificar_cantidad' %}";
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": "{{ csrf_token }}",
+      },
+      body: JSON.stringify({ productoId: productoId, cambio: cambio }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          location.reload();
+        } else {
+          alert(data.message); 
+        }
+      });
+  }
+</script>
+<script>
+    function eliminarProducto(productoId) {
+        const url = "{% url 'eliminar_producto' %}";  
         fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': '{{ csrf_token }}'
             },
-            body: JSON.stringify({productoId: productoId, cambio: cambio})
+            body: JSON.stringify({productoId: productoId})
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                location.reload();  // Recarga la página para ver los cambios
+                location.reload();  // Recarga la página para reflejar los cambios
             } else {
-                alert(data.message);  // Muestra un mensaje si hay un error
+                alert(data.message); 
             }
         });
     }
-    </script>
+</script>
+<script>
+    function comprar() {
+        alert('Compra realizada con éxito!');
+
+}
+</script>
 {% endblock %}

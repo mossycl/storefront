@@ -7,4 +7,5 @@ urlpatterns = [
     path('detalle/<str:pk>/', views.detalle, name="detalle"),
     path('carrito/', views.carrito, name='carrito'),
     path('modificar_cantidad/', views.modificar_cantidad, name='modificar_cantidad'),
+    path('eliminar_producto/', views.eliminar_producto, name='eliminar_producto'),
 ]

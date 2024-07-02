@@ -84,3 +84,16 @@ def modificar_cantidad(request):
         else:
             return JsonResponse({'success': False, 'message': 'Producto no encontrado en el carrito.'})
     return JsonResponse({'success': False, 'message': 'Datos incorrectos.'})
+
+@require_POST
+@csrf_exempt
+def eliminar_producto(request):
+    data = json.loads(request.body)
+    producto_id = data.get('productoId')
+    carrito = request.session.get('carrito', {})
+
+    if producto_id in carrito:
+        del carrito[producto_id]  # Elimina el producto del carrito
+        request.session['carrito'] = carrito
+        return JsonResponse({'success': True, 'message': 'Producto eliminado.'})
+    return JsonResponse({'success': False, 'message': 'Producto no encontrado.'})
