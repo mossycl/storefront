@@ -18,9 +18,9 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('index.urls')),
-    path('store/',include('store.urls')),
-    path('carrito/',include('carrito.urls')),
-    path('login/', include('login.urls')),
-    path('accounts/',include("django.contrib.auth.urls")),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('', include('index.urls')),  # URL de la aplicación index
+    path('store/', include('store.urls')),  # URL de la aplicación store
+    path('carrito/', include('carrito.urls', namespace='carrito')),  # URL de la aplicación carrito
+    path('login/', include('login.urls')),  # URL de la aplicación login
 ]

@@ -81,7 +81,7 @@
             {% if productos %}
                 {% for producto in productos %}
                 <div class="col-xxl-3 col-xl-3 col-md-6 col-sm-12 mb-2 p-0 prod" name="{{producto.id_marca}}">
-                    <a class="text-decoration-none" href="{% url 'detalle' pk=producto.id_producto %}">
+                    <a class="text-decoration-none" <a href="{% url 'store:detalle' pk=producto.id_producto %}">
                         <div class="card ficha-zapato">
                             <img class="card-img-top" src="{{producto.imagen.url}}" alt="{{producto.nombre}}">
                             <div class="card-body">

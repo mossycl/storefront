@@ -4,7 +4,7 @@
 
 {% block title %}
     {% if producto %}
-        <title>JDC - {{producto.nombre_prod}} - {{producto.id_marca}}</title>
+        <title>JDC - {{ producto.nombre_prod }} - {{ producto.id_marca }}</title>
     {% else %}
         <title>JDC - 404 Producto no Encontrado</title>
     {% endif %}
@@ -22,31 +22,26 @@
                 <div class="col-xxl-6 col-xl-6 col-md-6 col-sm-12" id="detalleCol">
                     <div id="carouselDetalle" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="{{producto.imagen.url}}" class="d-block w-100" alt="{{producto.nombre_prod}}" id="detalleImagen">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="{{producto.imagen.url}}" class="d-block w-100" alt="{{producto.nombre_prod}}" id="detalleImagen2">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="{{producto.imagen.url}}" class="d-block w-100" alt="{{producto.nombre_prod}}" id="detalleImagen3">
-                        </div>
+                            <div class="carousel-item active">
+                                <img src="{{ producto.imagen.url }}" class="d-block w-100" alt="{{ producto.nombre_prod }}" id="detalleImagen">
+                            </div>
+                            <!-- Otros carousel-items según sea necesario -->
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselDetalle" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
                         </button>
                         <button class="carousel-control-next" type="button" data-bs-target="#carouselDetalle" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
                         </button>
                     </div>
                 </div>
                 <div class="col-xxl-6 col-xl-6 col-md-6 col-sm-12 p-3">
                     <div>
-                        <h4 class="kanit-semibold mb-3" id="detalleNombre">{{producto.nombre_prod}}</h4>
-                        <h6 class="kanit-light mb-4" id="detalleMarca" name="marcaProd">{{producto.id_marca}}</h6>
-                        <h4 class="kanit-semibold" id="detallePrecio" name="precioProd">$ {{producto.precio}}</h4>
+                        <h4 class="kanit-semibold mb-3" id="detalleNombre">{{ producto.nombre_prod }}</h4>
+                        <h6 class="kanit-light mb-4" id="detalleMarca">{{ producto.id_marca }}</h6>
+                        <h4 class="kanit-semibold" id="detallePrecio">$ {{ producto.precio }}</h4>
                     </div>
                     <hr>
                     <h6 class="kanit-regular">Tallas Disponibles</h6>
@@ -54,7 +49,7 @@
                         <div class="row row-cols-2 d-flex justify-content-around p-3 kanit-light" id="detalleTallas">
                             {% for talla in tallas %}
                                 <div class="col cuadro-tallas">
-                                    <p class="m-0">{{talla}}</p>
+                                    <p class="m-0">{{ talla }}</p>
                                 </div>
                             {% endfor %}
                         </div>
@@ -64,26 +59,21 @@
                         <p class="kanit-regular" id="warnTalla"></p>
                     </div>
                     <hr>
-                    <div class="d-flex justify-content-center align-items-center">
-                        <label class="me-4 kanit-light" for="cantidadItem">Cantidad:</label>
-                        <input class="cantidad-item kanit-light text-center" type="number" name="cantidad" id="cantidadItem" min="1" max="99" value="1">
-                        <form action="" method="POST">
+                    <div>
+                        <form method="POST" action="{% url 'carrito:agregar_al_carrito' producto.id_producto %}">
                             {% csrf_token %}
-                            <input type="hidden" name="idProd" value="{{producto.id_producto}}"/>
-                            <input type="hidden" name="precio" value="{{producto.precio}}"/>
-                            <input type="hidden" name="user" value="{{user.username}}"/>
-                            <input id="btnAgregar" value="Añadir al Carrito" type="submit" method="POST" class="btn btn-dark kanit-semibold"></button>
+                            <label class="me-4 kanit-light" for="cantidadItem">Cantidad:</label>
+                            <input class="cantidad-item kanit-light text-center" type="number" name="quantity" id="cantidadItem" min="1" max="99" value="1">
+                            <button id="btnAgregar" type="submit" class="btn btn-dark kanit-semibold">Añadir al Carrito</button>
                         </form>
-                        
                     </div>
                     <hr>
                     <div>
                         <h6 class="kanit-regular">Descripción:</h6>
                         <p class="kanit-light" id="detalleDesc">
-                            {{producto.descripcion}}
+                            {{ producto.descripcion }}
                         </p>
                     </div>
-                    
                 </div>
             </div>
 
@@ -91,17 +81,17 @@
                 <hr>
                 <h4 class="kanit-semibold p-3">También podría gustarte</h4>
                 <div class="row d-flex justify-content-center" id="likeRow">
-                    {% for prod in listaLike %}
+                    {% for prod in likeProductos %}
                         <div class="col-xxl-4 col-xl-4 col-md-6 col-sm-12 mb-2 p-0 d-flex justify-content-center">
-                            <a class="text-decoration-none" href="{% url 'detalle' pk=prod.id_producto %}">
+                            <a class="text-decoration-none" href="{% url 'store:detalle' pk=prod.id_producto %}">
                                 <div class="card ficha-zapato">
-                                    <img class="card-img-top" src="{{prod.imagen.url}}" alt="{{prod.nombre_prod}}">
+                                    <img class="card-img-top" src="{{ prod.imagen.url }}" alt="{{ prod.nombre_prod }}">
                                     <div class="card-body">
-                                        <h5 class="card-title kanit-semibold">{{prod.nombre_prod}}</h5>
-                                        <p class="card-text kanit-light">{{prod.id_marca}}</p>
+                                        <h5 class="card-title kanit-semibold">{{ prod.nombre_prod }}</h5>
+                                        <p class="card-text kanit-light">{{ prod.id_marca }}</p>
                                     </div>
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item kanit-semibold">$ {{prod.precio}}</li>
+                                        <li class="list-group-item kanit-semibold">$ {{ prod.precio }}</li>
                                     </ul>
                                 </div>
                             </a>
@@ -113,6 +103,3 @@
     {% endif %}
 {% endblock %}
 
-{% block script %}
-<script type="module" src="{% static 'index/js/detalle.js' %}"></script>
-{% endblock %}

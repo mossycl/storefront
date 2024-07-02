@@ -53,7 +53,7 @@ def signup(request):
             form = UsuarioForm()
             mensaje = "Usuario registrado con éxito"
             context = {"form" : form, "regiones" : regiones, "comunas" : comunas, "mensaje" : mensaje}
-            return render(request, 'signup/signup.html',context)
+            return render(request, 'signup/login.html',context)
     else:
         form = UsuarioForm()
         context = {"form" : form, "regiones" : regiones, "comunas" : comunas}

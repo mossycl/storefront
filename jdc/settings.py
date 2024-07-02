@@ -133,3 +133,11 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Backend de autenticación por defecto
+    # Otros backends si los necesitas
+]
+
+LOGIN_REDIRECT_URL = '/index'  # Redirige aquí después de iniciar sesión
+LOGOUT_REDIRECT_URL = '/login'
