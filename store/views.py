@@ -4,6 +4,10 @@ from .models import Producto, Carrito, CarritoProducto
 from login.models import Usuario
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+import json
 # Create your views here.
 
 @login_required
@@ -48,7 +52,8 @@ def carrito(request):
         {
             'producto': prod,
             'cantidad': carrito[str(prod.id_producto)]['cantidad'],
-            'subtotal': carrito[str(prod.id_producto)]['cantidad'] * prod.precio
+            'subtotal': carrito[str(prod.id_producto)]['cantidad'] * prod.precio,
+            'imagen_url': prod.imagen.url  # Asegúrate de que los productos tienen imágenes asociadas
         }
         for prod in productos
     ]
@@ -58,3 +63,24 @@ def carrito(request):
         'total': total
     }
     return render(request, 'carrito/carrito.html', context)
+
+@require_POST
+@csrf_exempt
+def modificar_cantidad(request):
+    data = json.loads(request.body)
+    producto_id = data.get('productoId')
+    cambio = data.get('cambio')
+
+    if producto_id and cambio:
+        carrito = request.session.get('carrito', {})
+        if str(producto_id) in carrito:
+            if cambio == -1 and carrito[str(producto_id)]['cantidad'] > 1:
+                carrito[str(producto_id)]['cantidad'] -= 1
+            elif cambio == 1:
+                carrito[str(producto_id)]['cantidad'] += 1
+            
+            request.session['carrito'] = carrito
+            return JsonResponse({'success': True, 'message': 'Carrito actualizado.'})
+        else:
+            return JsonResponse({'success': False, 'message': 'Producto no encontrado en el carrito.'})
+    return JsonResponse({'success': False, 'message': 'Datos incorrectos.'})
