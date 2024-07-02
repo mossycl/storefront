@@ -1,0 +1,75 @@
+{% extends 'index/base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <header class="container-fluid p-3 encabezado">
+        <h1 class="text-center kanit-semibold">Registro</h1>
+    </header>
+    <div class="signup-container">
+        <section class="signup-section">
+            <form id="signupForm" action="" method="POST">
+                {% csrf_token %}
+                <!-- {% for field in form %}
+                    <label class="kanit-regular" for="">{{field.label}}</label>
+                    <input type="text" name="{{field.label}}" id="" placeholder="{{field.label}}">
+                {% endfor %} -->
+                <label class="kanit-regular" for="">{{form.email.label}}</label>
+                <input type="email" name="{{form.email.label}}" id="email" placeholder="{{form.email.label}}">
+
+                <label class="kanit-regular" for="">{{form.password.label}}</label>
+                <input type="password" name="{{form.password.label}}" id="password" maxlength="10" placeholder="{{form.password.label}}">
+                
+                <label class="kanit-regular" for="">Repetir Contraseña</label>
+                <input type="password" name="repContrasena" id="rPassword" maxlength="10" placeholder="Repetir Contraseña">
+
+                <label class="kanit-regular" for="">{{form.rut_cliente.label}}</label>
+                <input type="text" name="{{form.rut_cliente.label}}" id="rut" maxlength="10" placeholder="11222333-4">
+
+                <label class="kanit-regular" for="">{{form.pnombre_cliente.label}}</label>
+                <input type="text" name="{{form.pnombre_cliente.label}}" id="pNombre" placeholder="Juan">
+
+                <label class="kanit-regular" for="">{{form.snombre_cliente.label}}</label>
+                <input type="text" name="{{form.snombre_cliente.label}}" id="sNombre" placeholder="Carlos">
+
+                <label class="kanit-regular" for="">{{form.apaterno_cliente.label}}</label>
+                <input type="text" name="{{form.apaterno_cliente.label}}" id="aPaterno" placeholder="López">
+
+                <label class="kanit-regular" for="">{{form.amaterno_cliente.label}}</label>
+                <input type="text" name="{{form.amaterno_cliente.label}}" id="aMaterno" placeholder="Pérez">
+
+                <label class="kanit-regular" for="">{{form.direccion.label}}</label>
+                <input type="text" name="{{form.direccion.label}}" id="direccion" placeholder="Calle 123">
+
+                <label class="kanit-regular" for="">Región</label>
+                <select id="region" name="regiones" id="">
+                    <option value="" selected>---</option>
+                {% for region in regiones %}
+                    <option value="{{region}}">{{region}}</option>
+                {% endfor %}
+                </select>
+                <label class="kanit-regular" for="">Comuna</label>
+                <select name="comunas" id="comuna">
+                    <option value="" selected>---</option>
+                    {% for comuna in comunas %}
+                        <option class="comuna" name="{{comuna.id_region}}" value="{{comuna}}">{{comuna}}</option>
+                    {% endfor %}
+                    </select>
+                <input class="kanit-semibold" id="btnSubmit" type="submit" name="opcion" value="Registrar">
+            </form>
+        </section>
+    </div>
+    {% if mensaje %}
+    <div class="d-flex justify-content-center align-items-center">
+        <p class="kanit-regular" id="warn">{{mensaje}}</p>
+    </div>
+    {% else %}
+    <div class="d-flex justify-content-center align-items-center">
+        <p class="kanit-regular" id="warn"></p>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+    <script type="module" src="{% static 'index/js/signup.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'index/base.html' %}
+
+{% load static %}
+
+{% block title %}
+    <title>JDC - Zapatos para ti - Home</title>
+{% endblock %}
+
+{% block content %}
+<!-- Carrousel -->
+    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="10000">
+            <img src="{% static 'index/img/carrousel1.jpg' %}" class="d-block w-100 carrousel-size" alt="...">
+        </div>
+        <div class="carousel-item" data-bs-interval="2000">
+            <img src="{% static 'index/img/carrousel2.jpg' %}" class="d-block w-100 carrousel-size" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'index/img/carrousel3.jpg' %}" class="d-block w-100 carrousel-size" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'index/img/carrousel4.jpg' %}" class="d-block w-100 carrousel-size" alt="...">
+        </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+<!-- Pres 1 -->
+    <div class="container-fluid presentacion">
+        <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 p-5 d-flex flex-column justify-content-center align-items-center">
+                <h2 class="kanit-bold">Zapatillas para todos</h2>
+                <p class="kanit-light">Tenemos cientos de modelos para todas las tallas y todos los estilos.</p>
+                <a class="btn btn-outline-light kanit-regular" href="{% url 'zapatillas' %}">Ver más</a>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 p-0 d-flex justify-content-end">
+                <img src="{% static 'index/img/zapa-pres.jpg' %}" class="img-fluid" alt="">
+            </div>
+        </div>
+    </div>
+<!-- Marcas 1 -->
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center p-2">
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2 d-flex">
+                <img src="{% static 'index/img/marcas1/01.png' %}" class="marcas mx-auto" alt="">
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2 d-flex">
+                <img src="{% static 'index/img/marcas1/02.png' %}" class="marcas mx-auto" alt="">
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2 d-flex">
+                <img src="{% static 'index/img/marcas1/03.png' %}" class="marcas mx-auto" alt="">
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2 d-flex">
+                <img src="{% static 'index/img/marcas1/04.png' %}" class="marcas mx-auto" alt="">
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2 d-flex">
+                <img src="{% static 'index/img/marcas1/05.png' %}" class="marcas mx-auto" alt="">
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2 d-flex">
+                <img src="{% static 'index/img/marcas1/06.png' %}" class="marcas mx-auto" alt="">
+            </div>
+        </div>
+    </div>
+    <!-- Pres 2 -->
+    <div class="container-fluid presentacion-2">
+        <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 p-0 d-flex justify-content-start">
+                <img src="{% static 'index/img/zapa-pres2.jpg' %}" class="img-fluid" alt="">
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 p-5 d-flex flex-column justify-content-center align-items-center">
+                <h2 class="kanit-bold">Camina con estilo</h2>
+                <p class="kanit-light">Contamos con variedad de zapatos para todas las ocasiones</p>
+                <a class="btn btn-outline-light kanit-regular" href="{% url 'zapatos' %}">Ver más</a>
+            </div>
+        </div>  
+    </div>
+    <!-- Marcas 2 -->
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center p-2">
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2 d-flex">
+                <img src="{% static 'index/img/marcas2/01.png' %}" class="marcas mx-auto" alt="">
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2 d-flex">
+                <img src="{% static 'index/img/marcas2/02.png' %}" class="marcas mx-auto" alt="">
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2 d-flex">
+                <img src="{% static 'index/img/marcas2/03.png' %}" class="marcas mx-auto" alt="">
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2 d-flex">
+                <img src="{% static 'index/img/marcas2/04.png' %}" class="marcas mx-auto" alt="">
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2 d-flex">
+                <img src="{% static 'index/img/marcas2/05.png' %}" class="marcas mx-auto" alt="">
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-xs-2 d-flex">
+                <img src="{% static 'index/img/marcas2/06.png' %}" class="marcas mx-auto" alt="">
+            </div>
+        </div>
+    </div>
+{% endblock %}
