@@ -139,5 +139,7 @@ AUTHENTICATION_BACKENDS = [
     # Otros backends si los necesitas
 ]
 
-LOGIN_REDIRECT_URL = '/index'  # Redirige aquí después de iniciar sesión
-LOGOUT_REDIRECT_URL = '/login'
+LOGIN_REDIRECT_URL = 'index:index'  # Redirige aquí después de iniciar sesión
+LOGOUT_REDIRECT_URL = 'login'
+
+SESSION_SAVE_EVERY_REQUEST = True

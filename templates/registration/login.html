@@ -1,13 +1,25 @@
 {% extends 'index/base.html' %}
-{% block content%}
+{% block content %}
 <header class="container-fluid p-3 encabezado">
     <h1 class="text-center kanit-semibold">Iniciar Sesión</h1>
 </header>
+{% if mensaje %}
+<div class="d-flex justify-content-center align-items-center">
+    <p class="kanit-regular" id="warn">{{mensaje}}</p>
+</div>
+{% else %}
+<div class="d-flex justify-content-center align-items-center">
+    <p class="kanit-regular" id="warn"></p>
+</div>
+{% endif %}
 <div class="login-container">
     <section class="login-section">
-        <form id="loginForm" method="post">
+        <form id="loginForm" method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
+            <label for="username" class="kanit-regular">Email</label>
+            {{form.username}}
+            <label for="password" class="kanit-regular">Contraseña</label>
+            {{form.password}}
             <input type="submit" value="Iniciar Sesión"></button>
         </form>
         <p class="kanit-regular">No tienes una cuenta? <a href="{% url 'signup' %}">Registro</a></p>

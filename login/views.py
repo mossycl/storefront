@@ -26,55 +26,51 @@ def signup(request):
 
             regId = Region.objects.get(nombre_region = region)
             comId = Comuna.objects.get(nombre_comuna = comuna)
-            
-            obj = Usuario.objects.create(
-                email = email,
-                password = password,
-                rut_cliente = rut,
-                pnombre_cliente = pnombre,
-                snombre_cliente = snombre,
-                apaterno_cliente = apaterno,
-                amaterno_cliente = amaterno,
-                id_region = regId,
-                id_comuna = comId,
-                direccion = direccion
-            )
-            hashPass = make_password(password)
-            userObj = User.objects.create(
-                username = email,
-                password = hashPass,
-                is_staff = False,
-                is_active = True,
-                is_superuser = False
-            )
+            usuarioExiste = False
+            try:
+                if Usuario.objects.get(rut_cliente=rut):
+                    usuarioExiste = True
+            except:
+                pass
 
-            obj.save()
-            userObj.save()
-            form = UsuarioForm()
-            mensaje = "Usuario registrado con éxito"
-            context = {"form" : form, "regiones" : regiones, "comunas" : comunas, "mensaje" : mensaje}
-            return render(request, 'signup/login.html',context)
+            if usuarioExiste:
+                mensaje = "Un usuario ya existe con este RUT"
+                form = UsuarioForm()
+                context = {"form" : form, "regiones" : regiones, "comunas" : comunas, "mensaje" : mensaje}
+                return render(request, 'signup/signup.html', context)
+            else:
+                obj = Usuario.objects.create(
+                    email = email,
+                    password = password,
+                    rut_cliente = rut,
+                    pnombre_cliente = pnombre,
+                    snombre_cliente = snombre,
+                    apaterno_cliente = apaterno,
+                    amaterno_cliente = amaterno,
+                    id_region = regId,
+                    id_comuna = comId,
+                    direccion = direccion
+                )
+                hashPass = make_password(password)
+                userObj = User.objects.create(
+                    username = email,
+                    password = hashPass,
+                    is_staff = False,
+                    is_active = True,
+                    is_superuser = False
+                )
+
+                obj.save()
+                userObj.save()
+                form = UsuarioForm()
+                mensaje = "Usuario registrado con éxito"
+                context = {"form" : form, "regiones" : regiones, "comunas" : comunas, "mensaje" : mensaje}
+                return render(request, 'signup/success.html',context)
     else:
         form = UsuarioForm()
         context = {"form" : form, "regiones" : regiones, "comunas" : comunas}
         return render(request, 'signup/signup.html', context)
-
-def login(request):
-    if request.method == "POST":
-        email = request.POST["email"]
-        password = request.POST["password"]
-        
-        comprobarLogin = Usuario.objects.filter(email=email, password=password).values()
-        if comprobarLogin:
-            request.session["logged"] = True
-            request.session["nombreUsuario"] = comprobarLogin[0]['pnombre_cliente']
-            context = {"usuario" : comprobarLogin[0]['pnombre_cliente']}
-            print(comprobarLogin[0])
-            return render(request, 'index/index.html', context)
-        else:
-            msj = "Usuario y/o contraseña incorrectos"
-            context = {"mensaje": msj}
-            return render(request, 'login/login.html', context)
-    else:
-        context = {}
-        return render(request, 'login/login.html',context)
+    
+def success(request):
+    context = {}
+    return render(request, 'signup/success.html', context)

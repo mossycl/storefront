@@ -6,14 +6,19 @@
     <header class="container-fluid p-3 encabezado">
         <h1 class="text-center kanit-semibold">Registro</h1>
     </header>
+    {% if mensaje %}
+    <div class="d-flex justify-content-center align-items-center mt-2 mb-1">
+        <p class="kanit-regular">{{mensaje}}</p>
+    </div>
+    {% else %}
+    <div class="d-flex justify-content-center align-items-center">
+        <p class="kanit-regular"></p>
+    </div>
+    {% endif %}
     <div class="signup-container">
         <section class="signup-section">
             <form id="signupForm" action="" method="POST">
                 {% csrf_token %}
-                <!-- {% for field in form %}
-                    <label class="kanit-regular" for="">{{field.label}}</label>
-                    <input type="text" name="{{field.label}}" id="" placeholder="{{field.label}}">
-                {% endfor %} -->
                 <label class="kanit-regular" for="">{{form.email.label}}</label>
                 <input type="email" name="{{form.email.label}}" id="email" placeholder="{{form.email.label}}">
 

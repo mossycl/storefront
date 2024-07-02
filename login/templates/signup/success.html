@@ -1,0 +1,18 @@
+{% extends 'index/base.html' %}
+
+{% load static %}
+{% block title%}
+<title>JDC - Registro Exitoso</title>
+<meta http-equiv='refresh' content="3; URL={% url 'index:index' %}">
+{% endblock %}
+{% block content %}
+{% if mensaje %}
+<div class="login-container">
+    <section class="login-section">
+        <h3 class="kanit-regular">{{mensaje}}</h3><br>
+        <p class="kanit-regular">Será redirigido automáticamente en 3 segundos</p>
+        <p class="kanit-regular">Si no se redirige haga click <a href="{% url 'index:index' %}">aquí</a></p>
+    </section>
+</div>
+{% endif%}
+{% endblock %}
