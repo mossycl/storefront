@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Carrito, ItemCarrito
 from store.models import Producto
-from login.models import Usuario
+from login.models import Cliente
 from django.contrib.auth.decorators import login_required
 
 def agregar_al_carrito(request, producto_id):
@@ -67,7 +67,7 @@ def actualizar_item(request, item_id):
 def generar_boleta(request):
     carrito_id = request.session.get('carrito_id')
     mail = request.POST['user']
-    usuario = get_object_or_404(Usuario, email=mail)
+    usuario = get_object_or_404(Cliente, email=mail)
     if carrito_id:
         carrito = get_object_or_404(Carrito, id=carrito_id)
         items = carrito.items.all()

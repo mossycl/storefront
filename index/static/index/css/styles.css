@@ -497,6 +497,22 @@
   text-align: center;
   position: relative;
   opacity: 0.9;
+  width : 20rem;
+  animation : fadeIn 0.3s;
+  -webkit-animation: fadeIn 0.3s;
+  -moz-animation: fadeIn 0.3s;
+  -o-animation: fadeIn 0.3s;
+  -ms-animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  0% {opacity : 0;}
+  100% {opacity : 0.9;}
+}
+
+@keyframes fadeOut {
+  100% {opacity : 0.9;}
+  0% {opacity : 0;}
 }
 
 .alert.success {
@@ -524,3 +540,4 @@
 .closebtn:hover {
   color: black;
 }
+
