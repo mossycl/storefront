@@ -20,7 +20,6 @@ class Comuna(models.Model):
 
 class Cliente(models.Model):
     email = models.EmailField(unique=True, null=False, blank=False)
-    #password = models.CharField(max_length=10, null=False, blank=False)
     rut_cliente = models.CharField(max_length=10, primary_key=True)
     pnombre_cliente = models.CharField(max_length=50, null=False, blank=False)
     snombre_cliente = models.CharField(max_length=50, null=False, blank=False)

@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Region, Comuna, Cliente
+from carrito.models import Carrito
 from .forms import UsuarioForm
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
@@ -65,8 +66,13 @@ def signup(request):
                     direccion = direccion,
                     user = get_object_or_404(User, username=email)
                 )
-                
                 obj.save()
+                # Se crea un carrito cada vez que un usuario se registra
+                carritoObj = Carrito.objects.create(
+                    cliente = get_object_or_404(Cliente, rut_cliente=rut)
+                )
+                carritoObj.save()
+                
                 form = UsuarioForm()
                 mensaje = "Usuario registrado con éxito"
                 context = {"mensaje" : mensaje}
