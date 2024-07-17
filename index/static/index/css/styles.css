@@ -2,7 +2,7 @@ body {
   background-image: url('/static/index/img/fondo.jpg');
   background-size: cover;
   background-position: center;
-  background-color : rgba(255,255,255,1);
+  background-color : rgba(255,255,255,0.5);
 }
 
 .kanit-thin {
