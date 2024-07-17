@@ -1,6 +1,7 @@
-const selectEnvio = document.getElementById('selectEnvio')
+const selectEnvio = document.getElementById('selectEnvio');
 const totalPrice = document.getElementById('totalPrice');
 const btnComprar = document.getElementById('btnComprar');
+const metodoEnvio = document.getElementById('metodoEnvio');
 const listaPreciosEnvio = {
     1 : 3500,
     2 : 5000,
@@ -9,6 +10,7 @@ const listaPreciosEnvio = {
 let intPrice = 0;
 let envioPrice = listaPreciosEnvio[selectEnvio.value];
 let precioProd = document.getElementsByClassName('precioProd');
+metodoEnvio.setAttribute('value', selectEnvio.value)
 let valList = Object.values(precioProd);
 
 for (let i = 0; i < valList.length;i++) {
@@ -25,9 +27,11 @@ selectEnvio.addEventListener('change', ()=>{
         envioPrice = listaPreciosEnvio[selectEnvio.value]
         intPrice += envioPrice
         totalPrice.textContent = `$ ${intPrice}`
+        metodoEnvio.setAttribute('value', selectEnvio.value)
     }
 });
 
 if (intPrice == 0) {
     btnComprar.disabled = true;
+    selectEnvio.disabled = true;
 }
