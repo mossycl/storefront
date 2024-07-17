@@ -30,7 +30,7 @@
                                                 <img src="{{ item.producto.imagen.url }}" class="img-fluid rounded-3" alt="{{ item.producto.nombre_prod }}">
                                             </div>
                                             <div class="col-md-3 col-lg-3 col-xl-3">
-                                                <h6 class="text-muted">{{ item.producto.nombre_prod }} - Talla: {{item.talla}}</h6>
+                                                <h6 class="text-muted">{{ item.producto.nombre_prod }}</h6>
                                             </div>
                                             <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                                                 <form method="POST" action="{% url 'carrito:actualizar_item' item.id %}">
@@ -40,7 +40,7 @@
                                                 </form>
                                                 <a href="{% url 'carrito:eliminar_item' item.id %}" class="btn btn-sm btn-outline-danger ms-2">Eliminar</a>
                                             </div>
-                                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1 precioProd">
+                                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                                                 <h6 class="mb-0">${{ item.total }}</h6>
                                             </div>
                                         </div>
@@ -61,9 +61,10 @@
                                     <h5 class="text-uppercase mb-3 kanit-regular">Envio</h5>
                                     <div class="mb-4 pb-2">
                                         <select id="selectEnvio" class="form-select kanit-regular">
-                                            {% for metodo in metodos %}
-                                                <option value="{{metodo.id_metodo}}">{{metodo.desc_metodo}}</option>
-                                            {% endfor %}
+                                            <option value="1">ENVIO ESTANDAR $3.500-</option>
+                                            <option value="2">STARKEN $5.000-</option>
+                                            <option value="3">CHILEXPRESS $4.500-</option>
+                                            <option value="4">CORREOS DE CHILE $7.000-</option>
                                         </select>
                                     </div>
                                     <h5 class="text-uppercase mb-3 kanit-regular">Codigo descuento</h5>
@@ -76,12 +77,12 @@
                                     <hr class="my-4">
                                     <div class="d-flex justify-content-between mb-5">
                                         <h5 class="text-uppercase kanit-regular">Precio total</h5>
-                                        <h5 class="kanit-semibold" id="totalPrice">$ 0</h5>
+                                        <h5 class="kanit-semibold" id="totalPrice">${{ total }}</h5>
                                     </div>
                                     <form method="POST" action="{% url 'carrito:generar_boleta' %}">
                                         {% csrf_token %}
-                                        <input type="hidden" name="metodo" value="" id="metodoEnvio">
-                                        <button id="btnComprar" type="submit" class="btn btn-dark btn-block btn-lg kanit-semibold">Comprar</button>
+                                        <input type="hidden" name="user" value="{{user.username}}" id="">
+                                        <button type="submit" class="btn btn-dark btn-block btn-lg kanit-semibold">Comprar</button>
                                     </form>
                                     
                                 </div>
@@ -93,8 +94,4 @@
         </div>
     </div>
 </section>
-{% endblock %}
-
-{% block script %}
-<script type="module" src="{% static 'index/js/carrito.js' %}"></script>
 {% endblock %}
