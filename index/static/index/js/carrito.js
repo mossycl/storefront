@@ -1,5 +1,6 @@
 const selectEnvio = document.getElementById('selectEnvio')
 const totalPrice = document.getElementById('totalPrice');
+const btnComprar = document.getElementById('btnComprar');
 const listaPreciosEnvio = {
     1 : 3500,
     2 : 5000,
@@ -27,3 +28,6 @@ selectEnvio.addEventListener('change', ()=>{
     }
 });
 
+if (intPrice == 0) {
+    btnComprar.disabled = true;
+}

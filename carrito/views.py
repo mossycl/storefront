@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Carrito, ItemCarrito
+from .models import Carrito, ItemCarrito, Boleta, ProductoBoleta
 from store.models import Producto
 from login.models import Cliente
 from django.contrib.auth.models import User
@@ -35,20 +35,6 @@ def agregar_al_carrito(request, producto_id):
                 cantidad=cantidad
             )
         item.save()
-    # esta sesion no debiera requerirse
-    # carrito_id = request.session.get('carrito_id', None)
-    
-    # if carrito_id:
-    #     carrito = Carrito.objects.get(id=carrito_id)
-    # else:
-    #     carrito = Carrito.objects.create()
-    #     request.session['carrito_id'] = carrito.id
-
-    # item, created = ItemCarrito.objects.get_or_create(carrito=carrito, producto=producto)
-    
-    # if not created:
-    #     item.cantidad += 1
-    #     item.save()
     
     return redirect('carrito:mostrar_carrito')
 
@@ -72,31 +58,6 @@ def mostrar_carrito(request):
 
         return render(request, 'carrito/carrito.html', context)
 
-    # de aquí habría que cambiar el metodo de como llamar el carrito
-    # carrito_id = request.session.get('carrito_id', None)
-    # context = {}
-    # if carrito_id:
-    #     carrito = Carrito.objects.get(id=carrito_id)
-    #     items = carrito.items.all()
-    #     subtotal = sum(item.total() for item in items)
-    #     total = subtotal + 3500
-    #     context = {
-    #      'items': items,
-    #      'subtotal': subtotal,
-    #      'total': total,
-    #     }
-    # else:
-    #     items = []
-    #     subtotal = 0
-    #     total = 0
-
-    #     context = {
-    #      'items': items,
-    #      'subtotal': subtotal,
-    #      'total': total,
-    #     }
-    # return render(request, 'carrito/carrito.html', context)
-
 def eliminar_item(request, item_id):
     item = get_object_or_404(ItemCarrito, id=item_id)
     item.delete()
@@ -113,36 +74,95 @@ def actualizar_item(request, item_id):
     return redirect('carrito:mostrar_carrito')
 
 def generar_boleta(request):
-    carrito_id = request.session.get('carrito_id')
-    mail = request.POST['user']
-    usuario = get_object_or_404(Cliente, email=mail)
-    if carrito_id:
-        carrito = get_object_or_404(Carrito, id=carrito_id)
+    if request.user.is_authenticated:
+        usuario = get_object_or_404(User,username=request.user)
+        cliente = get_object_or_404(Cliente, user=usuario)
+        carrito = Carrito.objects.get(cliente=cliente)
         items = carrito.items.all()
-        if not items:
-            return redirect('carrito:mostrar_carrito')
-        else:
-            subtotal = sum(item.total() for item in items)
-            total = subtotal + 3500 
-            nombre = f"{usuario.pnombre_cliente} {usuario.apaterno_cliente} {usuario.amaterno_cliente}"
-            email = mail
-            direccion = usuario.direccion
-            comuna = usuario.id_comuna
-            region = usuario.id_region
-    else:
-        items = []
+        generarBoleta = Boleta.objects.create(
+            cliente = cliente,
+            total=0
+        )
+        generarBoleta.save()
+        # Guarda cada producto en la ultima boleta generada
+        boleta = Boleta.objects.raw(f"SELECT * FROM carrito_boleta WHERE rut_cliente = '{cliente.rut_cliente}' ORDER BY numero_boleta DESC LIMIT 1")[0]
+        boletaID = boleta.numero_boleta
         subtotal = 0
-        total = 0
+        for item in items:
+            prod = ProductoBoleta.objects.create(
+                boleta = boleta,
+                producto = item.producto,
+                cantidad = item.cantidad,
+                talla = item.talla
+            )
+            prod.save()
+            subtotal += item.producto.precio
+        iva = round(subtotal*0.19)
+        total = subtotal + iva
+        # Actualiza la boleta
+        boleta = Boleta.objects.get(numero_boleta = boletaID)
+        boleta.subtotal = subtotal
+        boleta.iva = iva
+        boleta.total = total
+        boleta.save()
 
-    context = {
-        'items': items,
-        'subtotal': subtotal,
-        'total': total,
-        'nombre' : nombre,
-        'email' : email,
-        'direccion' : direccion,
-        'comuna' : comuna,
-        'region' : region
-    }
+        # GENERAR VISTA
+        if boleta:
+            nombre = f"{cliente.pnombre_cliente} {cliente.apaterno_cliente} {cliente.amaterno_cliente}"
+            email = cliente.email
+            direccion = cliente.direccion
+            comuna = cliente.id_comuna
+            region = cliente.id_region
+            context = {
+                "items" : items,
+                "subtotal" : subtotal,
+                "total" : total,
+                "nombre" : nombre,
+                "email" : email,
+                "direccion" : direccion,
+                "comuna" : comuna,
+                "region" : region
+            }
+            return render(request, 'carrito/boleta.html', context)
+        
+    # context = {}
+    # if carrito:
+    #     #carrito = get_object_or_404(Carrito, id=carrito_id)
+    #     items = carrito.items.all()
+    #     if not items:
+    #         return redirect('carrito:mostrar_carrito')
+    #     else:
+    #         subtotal = sum(item.total() for item in items)
+    #         total = subtotal + 3500 
+    #         nombre = f"{usuario.pnombre_cliente} {usuario.apaterno_cliente} {usuario.amaterno_cliente}"
+    #         email = mail
+    #         direccion = usuario.direccion
+    #         comuna = usuario.id_comuna
+    #         region = usuario.id_region
+    #         context = {
+    #             'items': items,
+    #             'subtotal': subtotal,
+    #             'total': total,
+    #             'nombre' : nombre,
+    #             'email' : email,
+    #             'direccion' : direccion,
+    #             'comuna' : comuna,
+    #             'region' : region
+    #         }
+    # else:
+    #     items = []
+    #     subtotal = 0
+    #     total = 0
 
-    return render(request, 'carrito/boleta.html', context)
+    # # context = {
+    # #     'items': items,
+    # #     'subtotal': subtotal,
+    # #     'total': total,
+    # #     'nombre' : nombre,
+    # #     'email' : email,
+    # #     'direccion' : direccion,
+    # #     'comuna' : comuna,
+    # #     'region' : region
+    # # }
+
+    # return render(request, 'carrito/boleta.html', context)
