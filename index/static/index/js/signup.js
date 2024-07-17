@@ -29,7 +29,7 @@ const aMaterno = document.getElementById('aMaterno');
 const direccion = document.getElementById('direccion');
 const comList = document.getElementById('comuna');
 const btnSubmit = document.getElementById('btnSubmit');
-const warn = document.getElementById('warn');
+const warnDiv = document.getElementById('warnDiv');
 let elm = [];
 
 elm.push(email);
@@ -44,32 +44,43 @@ elm.push(direccion);
 elm.push(region);
 elm.push(comList);
 
+const showAlert = (message) =>{
+    const warn = document.createElement('p');
+            warn.classList.add('alert');
+            warn.classList.add('error');
+            warn.classList.add('kanit-regular');
+            warn.textContent = message;
+            warnDiv.appendChild(warn);
+
+            setTimeout(() =>{
+                warn.remove();
+            },5000);
+}
+
 btnSubmit.addEventListener('click', (e) =>{
     for (let i = 0; i< elm.length; i++){
         if (elm[i].value === ""){
             e.preventDefault();
             elm[i].style.borderColor = "#ff416c";
-            warn.style.color = "#ff416c"
-            warn.textContent = "Tiene campos sin completar";
+            showAlert("Tiene campos sin completar");
             return
         } else {
             elm[i].style.borderColor = "";
-            warn.style.color = "";
         };
     };
     if (password.value != rPassword.value) {
         e.preventDefault();
-        warn.textContent = "Las contraseñas no coinciden";
+        showAlert("Las contraseñas no coinciden");
         return
     };
     if (rut.value.indexOf('-') == -1){
         e.preventDefault();
-        warn.textContent = "Debe agregar el guión '-'"
+        showAlert("Debe agregar el guión '-'")
         return
     };
     if (rut.value.length < 9) {
         e.preventDefault();
-        warn.textContent = "El RUN no es válido";
+        showAlert("El RUN no es válido")
         return
     };
 });

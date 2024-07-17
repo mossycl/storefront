@@ -1,7 +1,5 @@
 from django.db import models
 
-from login.models import Usuario
-
 # Create your models here.
 class Marca(models.Model):
     id_marca = models.AutoField(db_column="id_marca",primary_key=True)

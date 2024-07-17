@@ -40,8 +40,11 @@
               {% endfor %}
             </tbody>
           </table>
-          <p class="kanit-light">Subtotal: $ {{ subtotal }}</p>
-          <p class="kanit-semibold">Total: $ {{ total }}</p>
+          <hr>
+          <h6 class="kanit-light">Subtotal: $ {{ subtotal }}</h6>
+          <h6 class="kanit-light">IVA (19%): $ {{ iva }}</h6>
+          <h6 class="kanit-light">Costo de Envío: $ {{ precioEnvio }}</h6>
+          <h3 class="kanit-semibold">Total: $ {{ total }}</h3>
         </div>
       </div>
     </div>
